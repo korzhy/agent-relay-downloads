@@ -5,8 +5,8 @@
 ## Before you install
 
 - **Windows 10 or 11, x64.** The Relay installer includes .NET and installs for the current Windows user without administrator rights.
-- **OpenAI Codex desktop app.** Install it and sign in under that Windows user. Open the project in Codex to start a handoff. Relay uses the open Codex chat. [OpenAI’s Windows setup guide](https://learn.chatgpt.com/docs/windows/windows-app#download-the-chatgpt-desktop-app).
-- **Google Antigravity CLI (`agy`).** Install it separately under the same Windows user. You need a Google account with access to a supported model and available quota. Relay reads usage from `agy`. Check your plan and model access with Google. [Google’s Antigravity CLI setup](https://antigravity.google/docs/getting-started?tab=cli).
+- **Codex on Windows.** Sign in to the OpenAI desktop app and open Codex. Start your first task from a chat in your project. [OpenAI’s Windows setup guide](https://learn.chatgpt.com/docs/windows/windows-app#download-the-chatgpt-desktop-app)
+- **Antigravity CLI (`agy`).** Install it for the same Windows user and use a Google account with model access and available quota. You can leave the Antigravity desktop app closed. [Google’s Antigravity CLI setup](https://antigravity.google/docs/getting-started?tab=cli)
 - **A practice repository.** Use a Git repository with dummy data for the first run, so Codex can inspect the diff and you can safely discard trial changes.
 
 ## Verify the installer
@@ -29,9 +29,9 @@ The installer currently has no Windows publisher signature. Windows may show an 
 
 ## Set up and try a task
 
-1. **Install and open Relay.** Run the verified installer as your regular Windows user. Setup installs the managed Codex instructions and skill for that user. Open Agent Relay from Start.
-2. **Connect Antigravity.** Open **Аккаунты** (Accounts), enter a local label, and use **Добавить аккаунт** (Add account). Finish Google sign-in in the browser and make the account active in Relay. Click the Relay status button to open **Диагностика** (Diagnostics) and check **Readiness**.
-3. **Set the threshold.** Use **Баланс** (Balanced) for the trial and **Обычный** (Normal) for one executor. **Выкл.** disables external execution. **Точечно** favors clear mechanical tasks. **Активно** lets Codex consider more verifiable tasks. This controls how readily Codex delegates, independently of its model or reasoning effort.
+1. **Install and open Relay.** Run the verified installer as your regular Windows user and open Agent Relay from Start. Open a new Codex chat so it can read the instructions Relay installed.
+2. **Connect your Google account.** In Relay, open **Аккаунты** (Accounts), enter a label, and click **Добавить аккаунт** (Add account). Finish signing in from your browser and make the account active in Relay. The Relay status button opens **Диагностика** (Diagnostics), where you can check that both tools are ready.
+3. **Decide when to hand work off.** Start in **Обычный** (Normal) mode with one executor. **Точечно** is for clear mechanical jobs. **Баланс** (Balance) also lets Codex consider larger, self-contained jobs with clear checks. **Активно** (Active) asks it to look for more opportunities to delegate. **Выкл.** turns external execution off.
 4. **Open a new Codex chat in the practice repository.** Give it one narrow task and a check it can run itself. If Codex says Relay requires trust, check the exact path and authorize Codex to grant trust for that folder. Keep workspace Auto-approve off for the trial. That setting grants trust to eligible new workspaces without a per-folder confirmation, and turning it off leaves earlier grants in place.
 5. **Return to that same chat for the result.** When Relay shows a report is ready, ask Codex to pick it up from the Relay inbox, check the diff, and run the agreed checks before integrating it.
 
@@ -43,7 +43,11 @@ Codex may still do the task itself if a handoff would take more work.
 
 ### Choose the executor model
 
-From 0.5.21, Relay defaults to **Hydrogen High** and preserves an explicit saved choice. In **Исполнитель** (Executor), you can choose **Flash High** or select Hydrogen with an effort available in your Antigravity catalog. Click **Сохранить выбор** (Save selection) to apply it to new tasks in either mode.
+Relay defaults to **Hydrogen High**. It can handle work that touches several files when Codex can explain the approach and verify the result. Try asking Codex to hand Hydrogen a CSV import change that needs updates to both parsing and validation, with a check that older files still import correctly.
+
+In **Исполнитель** (Executor), choose **Flash High** or set a fixed effort for Hydrogen from the available models. Starting with 0.5.22, **Авто** (Auto) lets Codex choose **Low** for straightforward mechanical work, **Medium** for routine tasks with exceptions, or **High** for harder tasks. High is used when a task leaves the effort unspecified. **XHigh** is a manual choice.
+
+Click **Сохранить выбор** (Save selection) to apply your choice to new tasks. The threshold decides when Codex considers handing off a task. The effort decides how deeply Hydrogen works on it.
 
 ## Paired mode and local data
 
